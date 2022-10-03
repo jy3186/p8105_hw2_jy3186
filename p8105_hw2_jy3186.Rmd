@@ -8,10 +8,42 @@ output: github_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(readxl)
+library(dplyr)
 ```
 
 ## Problem 1 being addressed with answers
 
 ## Problem 2 
+Mr. Trashwheel data cleaning
+```{r}
+mrtrashwheel_df = read_excel("./Trash_data.xlsx", sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
+  janitor::clean_names() %>% 
+  
+  drop_na() %>% 
+  filter(!is.na(dumpster)) %>% 
+  mutate(sports_balls = round(sports_balls),
+         sports_balls = as.integer(sports_balls),
+         wheel_name = "Mr.trash")
+
+```
+
+Prof. Trashwheel data cleaning
+```{r}
+proftrashwheel_df = read_excel("./Trash_data.xlsx", sheet = "Professor Trash Wheel", range = cell_cols("A:N")) %>% 
+  janitor::clean_names() %>% 
+  drop_na() %>% 
+  filter(!is.na(dumpster)) %>% 
+   mutate(sports_balls = round(sports_balls),
+         sports_balls = as.integer(sports_balls),
+         wheel_name = "Prof.trash")
+proftrashwheel_df
+```
+Now, combine Prof Trash Wheel with the Mr. Trash Wheel dataset to produce a single tidy dataset
+
+```{r}
+combined = left_join(mrtrashwheel_df, proftrashwheel_df, by = "sports_balls") %>% 
+  janitor::clean_names()
+```
+
 
 ## Problem 3
