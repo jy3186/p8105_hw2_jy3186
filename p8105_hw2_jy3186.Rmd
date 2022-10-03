@@ -1,0 +1,17 @@
+---
+title: "p8105_hw2_jy3186"
+author: "Jiayi Yang"
+date: "2022-10-02"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+## Problem 1 being addressed with answers
+
+## Problem 2 
+
+## Problem 3
