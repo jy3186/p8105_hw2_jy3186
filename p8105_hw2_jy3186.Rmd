@@ -144,6 +144,7 @@ pols_month_df=
   janitor::clean_names() %>% 
       separate(mon, into = c("year", "month", "day"), sep = "-") %>% 
   mutate(day = lubridate::mdy(day),
+         year = as.integer(year),
          month = recode(month, "01" = "Jan", "02" = "Feb", "03" = "Mar",
                         "04" = "Apr", "05" = "May", "06" = "Jun", 
                         "07" = "Jul", "08" = "Aug", "09" = "Sep",
@@ -183,7 +184,17 @@ unemployment_df =
     jan:dec,
     names_to = "month",
     values_to = "unemployment_rate"
-  )
+  ) 
 
+
+unemployment_df
+```
+
+Join the datasets of snp and pols and then join unemployment into the result
+
+```{r}
+final_merged = 
+  left_join(pols_month_df, snp_df, by = c("year","month")) %>% 
+   left_join(unemployment_df, by = c("year", "month"))
 ```
 
