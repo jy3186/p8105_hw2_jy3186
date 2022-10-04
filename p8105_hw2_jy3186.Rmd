@@ -170,8 +170,20 @@ snp_df =
             month = recode(month, "01" = "Jan", "02" = "Feb", "03" = "Mar",
                         "04" = "Apr", "05" = "May", "06" = "Jun", 
                         "07" = "Jul", "08" = "Aug", "09" = "Sep",
-                        "10" = "Oct", "11" = "Nov", "12" = "Dec")
-             )
+                        "10" = "Oct", "11" = "Nov", "12" = "Dec"))
 snp_df
+```
+
+Importing and cleaning unemployment data
+```{r, message = FALSE}
+unemployment_df =
+  read_csv("./unemployment.csv") %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    jan:dec,
+    names_to = "month",
+    values_to = "unemployment_rate"
+  )
+
 ```
 
