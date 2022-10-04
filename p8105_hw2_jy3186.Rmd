@@ -143,8 +143,12 @@ pols_month_df=
   read_csv("./pols-month.csv") %>% 
   janitor::clean_names() %>% 
       separate(mon, into = c("year", "month", "day"), sep = "-") %>% 
-  mutate(day = lubridate::mdy(day)) %>% 
-
+  mutate(day = lubridate::mdy(day),
+         month = recode(month, "01" = "Jan", "02" = "Feb", "03" = "Mar",
+                        "04" = "Apr", "05" = "May", "06" = "Jun", 
+                        "07" = "Jul", "08" = "Aug", "09" = "Sep",
+                        "10" = "Oct", "11" = "Nov", "12" = "Dec")
+         ) %>% 
    mutate(
     president = ifelse(prez_dem == 0, "gop", "dem")) %>% 
     select(-prez_dem, -prez_gop, -day)
@@ -156,7 +160,18 @@ Importing and cleaning the dataset snp
 ```{r}
 snp_df =
   read_csv("./snp.csv") %>% 
-  janitor::clean_names() 
-
+  janitor::clean_names() %>% 
+  separate(date, into = c("day", "month", "year"), sep = "/") %>% 
+  relocate( year, month, day) %>% 
+    mutate(
+           year = as.integer(year),
+           day = lubridate::mdy(day),
+           month = as.integer(month),
+            month = recode(month, "01" = "Jan", "02" = "Feb", "03" = "Mar",
+                        "04" = "Apr", "05" = "May", "06" = "Jun", 
+                        "07" = "Jul", "08" = "Aug", "09" = "Sep",
+                        "10" = "Oct", "11" = "Nov", "12" = "Dec")
+             )
+snp_df
 ```
 
