@@ -18,11 +18,11 @@ Mr. Trashwheel data cleaning
 ```{r}
 mrtrashwheel_df = read_excel("./Trash_data.xlsx", sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
   janitor::clean_names() %>% 
-  
   drop_na() %>% 
   filter(!is.na(dumpster)) %>% 
   mutate(sports_balls = round(sports_balls),
          sports_balls = as.integer(sports_balls),
+         dumpster = as.integer(dumpster),
          wheel_name = "Mr.trash")
 
 ```
@@ -35,14 +35,18 @@ proftrashwheel_df = read_excel("./Trash_data.xlsx", sheet = "Professor Trash Whe
   filter(!is.na(dumpster)) %>% 
    mutate(sports_balls = round(sports_balls),
          sports_balls = as.integer(sports_balls),
+         dumpster = as.integer(dumpster),
          wheel_name = "Prof.trash")
 proftrashwheel_df
 ```
 Now, combine Prof Trash Wheel with the Mr. Trash Wheel dataset to produce a single tidy dataset
 
 ```{r}
-combined = left_join(mrtrashwheel_df, proftrashwheel_df, by = "sports_balls") %>% 
-  janitor::clean_names()
+combined = bind_rows(mrtrashwheel_df, proftrashwheel_df) %>% 
+  janitor::clean_names() %>% 
+  drop_na()
+
+combined
 ```
 
 
