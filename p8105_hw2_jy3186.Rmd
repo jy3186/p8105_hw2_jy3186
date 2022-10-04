@@ -46,8 +46,15 @@ combined = bind_rows(mrtrashwheel_df, proftrashwheel_df) %>%
   janitor::clean_names() %>% 
   drop_na()
 
-combined
 ```
+To see the data of year 2020
+```{r}
+mrtrashwheel_2020 = 
+  mrtrashwheel_df %>% 
+  filter(year ==  2020) %>% 
+  drop_na()
+```
+
 
 
 ## Problem 3
