@@ -9,6 +9,7 @@ output: github_document
 library(tidyverse)
 library(readxl)
 library(dplyr)
+library(lubridate)
 ```
 
 ## Problem 1 being addressed with answers
@@ -136,15 +137,26 @@ The total number of sports balls collected by Mr. Trash Wheel in 2020 is `r sum(
 
 ## Problem 3
 
-Importing and cleaning the data pols-month
+Importing and cleaning the dataset pols-month
 ```{r}
 pols_month_df= 
   read_csv("./pols-month.csv") %>% 
   janitor::clean_names() %>% 
-  separate(mon, into = c("year", "month", "day")) %>% 
-  mutate(
-    president = gov_gop + sen_gop + rep_gop + gov_dem + sen_dem +rep_dem,
-  )
+      separate(mon, into = c("year", "month", "day"), sep = "-") %>% 
+  mutate(day = lubridate::mdy(day)) %>% 
+
+   mutate(
+    president = ifelse(prez_dem == 0, "gop", "dem")) %>% 
+    select(-prez_dem, -prez_gop, -day)
+
 pols_month_df
+```
+
+Importing and cleaning the dataset snp
+```{r}
+snp_df =
+  read_csv("./snp.csv") %>% 
+  janitor::clean_names() 
+
 ```
 
