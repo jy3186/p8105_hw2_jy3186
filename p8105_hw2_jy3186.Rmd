@@ -187,8 +187,12 @@ unemployment_df =
     jan:dec,
     names_to = "month",
     values_to = "unemployment_rate"
-  ) 
-
+  ) %>% 
+mutate(
+  month = recode(month, "jan" = 1, "feb" = 2, "mar" = 3, "apr" = 4, "may" = 5, "jun" = 6,
+                 "jul" = 7, "aug" = 8, "sep" = 9, "oct" = 10, "nov" =11, "dec" = 12),
+  month = month.name[as.numeric(month)]
+)
 
 unemployment_df
 ```
@@ -196,9 +200,10 @@ unemployment_df
 Join the datasets of snp and pols and then join unemployment into the result
 
 ```{r}
+merged = 
+  left_join(pols_month_df, snp_df)
 final_merged = 
-  left_join(pols_month_df, snp_df) %>% 
-   left_join(unemployment_df)
+   left_join(merged, unemployment_df)
 final_merged
 ```
 
