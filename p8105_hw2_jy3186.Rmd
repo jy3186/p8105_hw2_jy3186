@@ -80,6 +80,16 @@ trans_ent %>%
   distinct
 ```
 
+###Description
+There are 465 distinct stations.
+
+There are 84 stations are ADA compliant.
+
+The proportion of station entrances / exits without vending allow entrance is 0.37.
+
+There are 60 distinct stations serve the A train, and 17 ADA compliant serve A train.
+
+
 
 ## Problem 2 
 Mr. Trashwheel data cleaning
