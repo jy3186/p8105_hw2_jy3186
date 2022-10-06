@@ -111,16 +111,14 @@ Now, combine Prof Trash Wheel with the Mr. Trash Wheel dataset to produce a sing
 
 ```{r, message=FALSE}
 combined = bind_rows(mrtrashwheel_df, proftrashwheel_df) %>% 
-  janitor::clean_names() %>% 
-  drop_na()
+  janitor::clean_names()
 combined
 ```
 To see the data of year 2020
 ```{r, message=FALSE}
 mrtrashwheel_2020 = 
   mrtrashwheel_df %>% 
-  filter(year ==  2020) %>% 
-  drop_na()
+  filter(year ==  2020) 
 ```
 
 ## Description
@@ -174,7 +172,8 @@ snp_df =
             month = recode(month, "01" = "Jan", "02" = "Feb", "03" = "Mar",
                         "04" = "Apr", "05" = "May", "06" = "Jun", 
                         "07" = "Jul", "08" = "Aug", "09" = "Sep",
-                        "10" = "Oct", "11" = "Nov", "12" = "Dec"))
+                        "10" = "Oct", "11" = "Nov", "12" = "Dec"),
+           )
 snp_df
 ```
 
@@ -189,9 +188,8 @@ unemployment_df =
     values_to = "unemployment_rate"
   ) %>% 
 mutate(
-  month = recode(month, "jan" = 1, "feb" = 2, "mar" = 3, "apr" = 4, "may" = 5, "jun" = 6,
-                 "jul" = 7, "aug" = 8, "sep" = 9, "oct" = 10, "nov" =11, "dec" = 12),
-  month = month.name[as.numeric(month)]
+  month = recode(month, "jan" = "Jan", "feb" = "Feb", "mar" = "Mar", "apr" = "Apr", "may" = "May", "jun" = "Jun",
+                 "jul" = "Jul", "aug" = "Aug", "sep" = "Sep", "oct" = "Oct", "nov" ="Nov", "dec" = "Dec")
 )
 
 unemployment_df
@@ -200,10 +198,8 @@ unemployment_df
 Join the datasets of snp and pols and then join unemployment into the result
 
 ```{r}
-merged = 
-  left_join(pols_month_df, snp_df)
-final_merged = 
-   left_join(merged, unemployment_df)
+merged = left_join(pols_month_df, snp_df) 
+   final_merged= left_join(merged, unemployment_df)
 final_merged
 ```
 
